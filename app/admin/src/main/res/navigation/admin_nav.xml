@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav"
+    app:startDestination="@id/fragmentHomeAdmin">
+    <fragment
+        android:id="@+id/fragmentHomeAdmin"
+        android:name="com.example.admin.feature.home.FragmentHomeAdmin"
+        android:label="FragmentHomeAdmin" >
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentLoginAdmin"
+            app:destination="@id/fragmentLoginAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentMateriAdmin"
+            app:destination="@id/fragmentMateriAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentTugasAdmin"
+            app:destination="@id/fragmentTugasAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentQuizAdmin"
+            app:destination="@id/fragmentQuizAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentNilaiAdmin"
+            app:destination="@id/fragmentNilaiAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentProfilAdmin"
+            app:destination="@id/fragmentProfilAdmin" />
+        <action
+            android:id="@+id/action_fragmentHomeAdmin_to_fragmentDataUser"
+            app:destination="@id/fragmentDataUser" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentLoginAdmin"
+        android:name="com.example.admin.feature.login.FragmentLoginAdmin"
+        android:label="fragment_login_admin"
+        tools:layout="@layout/fragment_login_admin" >
+        <action
+            android:id="@+id/action_fragmentLoginAdmin_to_fragmentHomeAdmin"
+            app:destination="@id/fragmentHomeAdmin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMateriAdmin"
+        android:name="com.example.admin.feature.materi.FragmentMateri"
+        android:label="fragment_materi_admin"
+        tools:layout="@layout/fragment_materi_admin" />
+    <fragment
+        android:id="@+id/fragmentNilaiAdmin"
+        android:name="com.example.admin.feature.nilai.FragmentNilaiAdmin"
+        android:label="fragment_nilai_admin"
+        tools:layout="@layout/fragment_nilai_admin" />
+    <fragment
+        android:id="@+id/fragmentProfilAdmin"
+        android:name="com.example.admin.feature.profil.FragmentProfilAdmin"
+        android:label="fragment_profil_admin"
+        tools:layout="@layout/fragment_profil_admin" >
+        <action
+            android:id="@+id/action_fragmentProfilAdmin_to_fragmentLoginAdmin"
+            app:destination="@id/fragmentLoginAdmin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentQuizAdmin"
+        android:name="com.example.admin.feature.quiz.FragmentQuizAdmin"
+        android:label="fragment_quiz_admin"
+        tools:layout="@layout/fragment_quiz_admin" >
+        <action
+            android:id="@+id/action_fragmentQuizAdmin_to_fragmentNilaiAdmin"
+            app:destination="@id/fragmentNilaiAdmin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTugasAdmin"
+        android:name="com.example.admin.feature.tugas.FragmentTugasAdmin"
+        android:label="fragment_tugas_admin"
+        tools:layout="@layout/fragment_tugas_admin" >
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDataUser"
+        android:name="com.example.admin.FragmentDataUser"
+        android:label="fragment_data_user"
+        tools:layout="@layout/fragment_data_user" />
+</navigation>

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "509936305360",
+    "firebase_url": "https://project-skripsi-4c98d-default-rtdb.firebaseio.com",
+    "project_id": "project-skripsi-4c98d",
+    "storage_bucket": "project-skripsi-4c98d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509936305360:android:6b78284812ce1f52fb0ad5",
+        "android_client_info": {
+          "package_name": "com.example.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBudups9-FEU4m0Kr4_xrc8dXkzfYgrYPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509936305360:android:7eaee2eb06af9d15fb0ad5",
+        "android_client_info": {
+          "package_name": "com.example.my_e_learning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBudups9-FEU4m0Kr4_xrc8dXkzfYgrYPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

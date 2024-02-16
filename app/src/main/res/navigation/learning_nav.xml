@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/learning_nav"
+    app:startDestination="@id/fragmentHome">
+
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.example.my_e_learning.fitur.home.FragmentHome"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentNilai"
+            app:destination="@id/fragmentNilai" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentMateri"
+            app:destination="@id/fragmentMateri" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentTugas"
+            app:destination="@id/fragmentTugas" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentProfil"
+        android:name="com.example.my_e_learning.fitur.profil.FragmentProfil"
+        android:label="fragment_profil"
+        tools:layout="@layout/fragment_profil" >
+        <action
+            android:id="@+id/action_fragmentProfil_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.example.my_e_learning.fitur.login.FragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentHome"
+            app:destination="@id/fragmentHome"
+            app:popUpTo="@id/fragmentHome"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentNilai"
+        android:name="com.example.my_e_learning.fitur.nilai.FragmentNilai"
+        android:label="FragmentNilai" >
+        <action
+            android:id="@+id/action_fragmentNilai_to_fragmentHome"
+            app:destination="@id/fragmentHome"
+            app:popUpTo="@id/fragmentHome"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMateri"
+        android:name="com.example.my_e_learning.fitur.materi.FragmentMateri"
+        android:label="fragment_materi"
+        tools:layout="@layout/fragment_materi" >
+        <action
+            android:id="@+id/action_fragmentMateri_to_fragmentDetailMateri"
+            app:destination="@id/fragmentDetailMateri" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTugas"
+        android:name="com.example.my_e_learning.fitur.tugas.FragmentTugas"
+        android:label="FragmentTugas" >
+        <action
+            android:id="@+id/action_fragmentTugas_to_fragmentDetailTugas"
+            app:destination="@id/fragmentDetailTugas" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentQuiz"
+        android:name="com.example.my_e_learning.fitur.quiz.FragmentQuiz"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_fragmentQuiz_to_fragmentNilai"
+            app:destination="@id/fragmentNilai" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDetailMateri"
+        android:name="com.example.my_e_learning.fitur.materi.FragmentDetailMateri"
+        android:label="FragmentDetailMateri" >
+        <argument
+            android:name="idMateri"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDetailTugas"
+        android:name="com.example.my_e_learning.fitur.tugas.FragmentDetailTugas"
+        android:label="FragmentDetailTugas" >
+        <argument
+            android:name="idTugas"
+            app:argType="integer" />
+    </fragment>
+</navigation>
