@@ -1,5 +1,6 @@
-package com.example.my_e_learning.data.database
+package com.example.my_e_learning.di
 
+import com.example.my_e_learning.data.database.FirebaseUserQualifier
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module

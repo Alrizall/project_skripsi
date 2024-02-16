@@ -60,7 +60,7 @@
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="150dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:text="Logout"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -73,15 +73,16 @@
             android:layout_height="500dp"
             android:background="@drawable/btn_gradient_login"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/view_profil"
-            tools:layout_editor_absoluteX="23dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_profil">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="15dp"
                 android:text="Detail Pengguna"
-                android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -137,6 +138,24 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="10dp"
                 android:text="tkj"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="No Telepon"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_no_tlp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="10dp"
+                android:text="0812345678"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />

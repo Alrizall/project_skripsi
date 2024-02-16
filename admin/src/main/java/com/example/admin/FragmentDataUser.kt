@@ -103,6 +103,8 @@ class FragmentDataUser : Fragment() {
                     }
                 }
             }
+            findNavController().popBackStack()
+            Toast.makeText(requireContext(), "Input Berhasil", Toast.LENGTH_SHORT).show()
         }
     }
 
