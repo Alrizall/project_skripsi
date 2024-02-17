@@ -1,4 +1,4 @@
-package com.example.admin.data.database
+package com.example.admin.di
 
 import com.example.admin.data.database.RegisterUserRemoteDataSource
 import com.example.admin.data.database.RegisterUserRemoteDataSourceImpl
