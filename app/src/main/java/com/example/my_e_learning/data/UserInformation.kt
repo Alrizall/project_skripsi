@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UserInformation(
   @SerializedName("id")
-  var id : Int?,
+  var id : String?,
   @SerializedName("username")
   var username : String?,
   @SerializedName("password")

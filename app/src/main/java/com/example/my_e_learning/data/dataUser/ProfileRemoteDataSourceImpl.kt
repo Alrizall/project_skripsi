@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -15,29 +16,29 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ProfileRemoteDataSourceImpl @Inject constructor(
-    @ActivityContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val mFirebaseAuth: FirebaseAuth
 ) :
     ProfileRemoteDataSource {
 
-    override suspend fun signUp(email: String, password: String): DataSourceVoid {
-        val result: CompletableDeferred<DataSourceVoid> =
-            CompletableDeferred()
-
-        mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    result.complete(DataSourceVoid.Success)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    result.complete(DataSourceVoid.Error("Failure : ${task.exception}"))
-                }
-            }
-
-
-        return result.await()
-    }
+//    override suspend fun signUp(email: String, password: String): DataSourceVoid {
+//        val result: CompletableDeferred<DataSourceVoid> =
+//            CompletableDeferred()
+//
+//        mFirebaseAuth.createUserWithEmailAndPassword(email, password)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    // Sign in success, update UI with the signed-in user's information
+//                    result.complete(DataSourceVoid.Success)
+//                } else {
+//                    // If sign in fails, display a message to the user.
+//                    result.complete(DataSourceVoid.Error("Failure : ${task.exception}"))
+//                }
+//            }
+//
+//
+//        return result.await()
+//    }
 
     override suspend fun signIn(email: String, password: String): DataSourceVoid {
         val result: CompletableDeferred<DataSourceVoid> =
@@ -57,25 +58,25 @@ class ProfileRemoteDataSourceImpl @Inject constructor(
         return result.await()
     }
 
-    override suspend fun sendEmailVerification(firebaseUser: FirebaseUser?): DataSourceVoid {
-        val result: CompletableDeferred<DataSourceVoid> =
-            CompletableDeferred()
-
-        if (firebaseUser != null) {
-            firebaseUser.sendEmailVerification()
-                .addOnCompleteListener { task ->
-                    // Email Verification sent
-                    if (task.isSuccessful) {
-                        result.complete(DataSourceVoid.Success)
-                    } else {
-                        result.complete(DataSourceVoid.Error("Failure : ${task.exception}"))
-                    }
-                }
-        } else {
-            result.complete(DataSourceVoid.Error("Failure : user is null"))
-        }
-        return result.await()
-    }
+//    override suspend fun sendEmailVerification(firebaseUser: FirebaseUser?): DataSourceVoid {
+//        val result: CompletableDeferred<DataSourceVoid> =
+//            CompletableDeferred()
+//
+//        if (firebaseUser != null) {
+//            firebaseUser.sendEmailVerification()
+//                .addOnCompleteListener { task ->
+//                    // Email Verification sent
+//                    if (task.isSuccessful) {
+//                        result.complete(DataSourceVoid.Success)
+//                    } else {
+//                        result.complete(DataSourceVoid.Error("Failure : ${task.exception}"))
+//                    }
+//                }
+//        } else {
+//            result.complete(DataSourceVoid.Error("Failure : user is null"))
+//        }
+//        return result.await()
+//    }
 
     override fun getUserProfile(): Flow<DataSourceHelper<AuthenticatedUserInfo>> {
         return mFirebaseAuth.valueEventProfileFlow().map { auth ->
