@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object FirebaseStorageModule {
 
-    private const val firebaseStorageUrl = ""
+    private const val firebaseStorageUrl = "gs://project-skripsi-4c98d.appspot.com"
 
     @Provides
     fun provideFirebaseStorage(): StorageReference {

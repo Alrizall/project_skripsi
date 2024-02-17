@@ -39,6 +39,7 @@ class FragmentMateri : Fragment() {
             try {
                 val intentResult = result.data?.data
                 imageUri = intentResult
+                binding.ivEdtImg.visibility = View.VISIBLE
                 Glide.with(requireContext()).load(intentResult).into(binding.ivEdtImg)
             } catch (e: Exception) {
                 Log.e("tag", "${e.message}")
@@ -88,7 +89,7 @@ class FragmentMateri : Fragment() {
 
         }
         binding.btnEdtImg.setOnClickListener{
-            Toast.makeText(requireContext(),"Sukses Load Image",Toast.LENGTH_SHORT).show()
+            openGalery()
         }
     }
 
@@ -105,6 +106,8 @@ class FragmentMateri : Fragment() {
                 DataSourceVoid.Success -> {
                     binding.edtDescription1.setText("")
                     binding.edtDescription2.setText("")
+                    binding.ivEdtImg.visibility = View.GONE
+                    imageUri = null
                 }
             }
 
@@ -120,6 +123,8 @@ class FragmentMateri : Fragment() {
                 DataSourceVoid.Success -> {
                     binding.edtDescription1.setText("")
                     binding.edtDescription2.setText("")
+                    binding.ivEdtImg.visibility = View.GONE
+                    imageUri = null
                 }
             }
 
