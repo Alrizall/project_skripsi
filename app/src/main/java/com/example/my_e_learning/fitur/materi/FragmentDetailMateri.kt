@@ -11,10 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.my_e_learning.R
 import com.example.my_e_learning.data.MateriInformation
 import com.example.my_e_learning.databinding.FragmentDetailMateriBinding
 import com.google.android.material.snackbar.Snackbar
@@ -26,26 +28,7 @@ class FragmentDetailMateri : Fragment() {
     private val materiViewModel: MateriViewModel by viewModels()
     private var _binding: FragmentDetailMateriBinding? = null
     private val binding get() = _binding!!
-    private val idMateri: FragmentDetailMateriArgs by navArgs()
-    private val intentGalleryLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            try {
-                val intentResult = result.data?.data
-                imageUri = intentResult
-                Glide.with(requireContext()).load(intentResult).into(binding.ivDetailMateri)
-            } catch (e: Exception) {
-                Log.e("tag", "${e.message}")
-                Snackbar.make(
-                    requireContext(),
-                    binding.root,
-                    "tidak bisa load image",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+    private val materi: FragmentDetailMateriArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,59 +43,20 @@ class FragmentDetailMateri : Fragment() {
         initView()
     }
 
-    fun openGalery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        intentGalleryLauncher.launch(intent)
-    }
-
     private fun initView() {
-        val isAdmin = materiViewModel.isAdmin()
-        val data = materiViewModel.materiViewModelProvider(idMateri.idMateri)
-        if (isAdmin) {
-            binding.btnEdtImg.setOnClickListener {
-                openGalery()
-            }
-            binding.btnEdtImg.visibility = View.VISIBLE
-            binding.edtDescription1.visibility = View.VISIBLE
-            binding.edtDescription2.visibility = View.VISIBLE
-            binding.btnSaveMateri.visibility = View.VISIBLE
-            binding.edtDescription1.setText(data.decription1)
-            binding.edtDescription2.setText(data.decription2)
-            binding.btnSaveMateri.setOnClickListener {
-                materiViewModel.updateQuestion(
-                    MateriInformation(
-                        id = data.id,
-                        decription1 = binding.edtDescription1.text.toString(),
-                        decription2 = binding.edtDescription2.text.toString(),
-                        image = data.image,
-                        title = data.title,
-                        uri = if (imageUri !=null) imageUri.toString() else null
-                    )
-                )
-                binding.tvDetailMateri.text = binding.edtDescription1.text.toString()
-                binding.tvDetailMateri2.text = binding.edtDescription2.text.toString()
-                findNavController().popBackStack()
-            }
-
-        } else {
-            binding.btnEdtImg.visibility = View.GONE
-            binding.edtDescription1.visibility = View.GONE
-            binding.edtDescription2.visibility = View.GONE
-            binding.btnSaveMateri.visibility = View.GONE
-        }
 
         binding.ivTomboolbackDetail.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.tvDetailMateri.text = data.decription1
-        binding.tvDetailMateri2.text = data.decription2
-        if (data.uri != null ){
-            Glide.with(binding.ivDetailMateri.context).load(Uri.parse(data.uri)).into(binding.ivDetailMateri)
+        binding.tvDetailMateri.text =   materi.materiArgs.description1
+        binding.tvDetailMateri2.text =   materi.materiArgs.description2
+        if (  materi.materiArgs.image != null ){
+            Glide.with(binding.ivDetailMateri.context).load(materi.materiArgs.image).into(binding.ivDetailMateri)
         }else {
-            Glide.with(binding.ivDetailMateri.context).load(data.image).into(binding.ivDetailMateri)
+            Glide.with(binding.ivDetailMateri.context).load(ContextCompat.getDrawable(requireContext(),
+                R.drawable.ss_ux)).into(binding.ivDetailMateri)
         }
-        binding.tvBackDetaillMateri.text = data.title
+        binding.tvBackDetaillMateri.text = materi.materiArgs.description1
     }
 
     override fun onDestroyView() {

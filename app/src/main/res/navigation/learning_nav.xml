@@ -87,8 +87,8 @@
         android:name="com.example.my_e_learning.fitur.materi.FragmentDetailMateri"
         android:label="FragmentDetailMateri" >
         <argument
-            android:name="idMateri"
-            app:argType="integer" />
+            android:name="materiArgs"
+            app:argType="com.example.my_e_learning.data.MateriInformation" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailTugas"
