@@ -95,7 +95,7 @@
         android:name="com.example.my_e_learning.fitur.tugas.FragmentDetailTugas"
         android:label="FragmentDetailTugas" >
         <argument
-            android:name="idTugas"
-            app:argType="integer" />
+            android:name="tugasArgs"
+            app:argType="com.example.my_e_learning.data.TugasInformation" />
     </fragment>
 </navigation>

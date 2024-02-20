@@ -30,7 +30,10 @@ class MateriViewModel @Inject constructor(private val materiRemoteDataSource: Ma
             materiRemoteDataSource.getMateriData().onEach { result ->
                 when (result) {
                     is DataSourceHelper.Error -> _materiDataState.update { currentUiState ->
-                        currentUiState.copy(errorMessage = result.errorMessage,  materi = emptyList())
+                        currentUiState.copy(
+                            errorMessage = result.errorMessage,
+                            materi = emptyList()
+                        )
                     }
 
                     is DataSourceHelper.Success -> _materiDataState.update { currentUiState ->

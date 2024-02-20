@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class FragmentMateri : Fragment(), ListMateriAdapter.ListMateriAdapterListener {
     private val materiViewModel : MateriViewModel by viewModels()
-
     private var _binding: FragmentMateriBinding? = null
     private val binding get() = _binding!!
     private val materiAdapter: ListMateriAdapter by lazy { ListMateriAdapter(this) }

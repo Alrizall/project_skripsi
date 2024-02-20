@@ -1,65 +1,83 @@
 package com.example.my_e_learning.fitur.tugas
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.my_e_learning.R
 import com.example.my_e_learning.data.TugasInformation
+import com.example.my_e_learning.data.dataUser.DataSourceHelper
+import com.example.my_e_learning.data.dataUser.MateriRemoteDataSource
+import com.example.my_e_learning.data.dataUser.TugasRemoteDataSource
+import com.example.my_e_learning.data.model.MateriUiState
+import com.example.my_e_learning.data.model.TugasUiState
 import com.example.my_e_learning.local.PreferenceHelper
 import com.example.my_e_learning.util.KeyConstant
 import com.example.my_e_learning.util.KeyConstant.ANSWER_KEY
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 import javax.inject.Inject
 
 @HiltViewModel
-class TugasViewModel @Inject constructor(private val preferenceHelper: PreferenceHelper) : ViewModel(){
-//    fun tugasInformationProvider(id: Int): TugasInformation {
-//
-//        return when(id){
-//            1 -> {
-//                TugasInformation(1,"Jendela antar muka yang menghubungkan program dengan pengguna disebut?",null)
-//            }
-//            // Desain Interface
-//            2 -> {
-//                TugasInformation(2,"Sebutkan contoh tentang interface!",null)
-//            }
-//            else -> {
-//                TugasInformation(3,"Sebutkan 3 desain tools yang biasa digunakan untuk UI", null)
-//            }
-//        }
-//    }
-//    fun lockJawaban (data: TugasInformation){
-//        val userName = preferenceHelper.getStringInSharedPreference(KeyConstant.USERNAME_KEY)
-//        val listOfHasil = preferenceHelper.getStringInSharedPreference(userName)
-//        if (!listOfHasil.isNullOrEmpty()){
-//            val consumeType: Type =
-//                object : TypeToken<List<TugasInformation>>() {}.type
-//            val consume: MutableList<TugasInformation> =
-//                Gson().fromJson<List<TugasInformation>?>(listOfHasil, consumeType).toMutableList()
-//            consume.add(data)
-//            val saveValue = Gson().toJson(consume)
-//            preferenceHelper.saveStringInSharedPreference(userName,saveValue)
-//        }else {
-//            val consumeType: Type =
-//                object : TypeToken<List<TugasInformation>>() {}.type
-//            val consume: List<TugasInformation> = listOf(data)
-//            val saveValue = Gson().toJson(consume)
-//            preferenceHelper.saveStringInSharedPreference(userName,saveValue)
-//        }
-//
-//    }
-//    fun locked (data: TugasInformation) : Boolean {
-//        val userName = preferenceHelper.getStringInSharedPreference(KeyConstant.USERNAME_KEY)
-//        val listOfHasil = preferenceHelper.getStringInSharedPreference(userName)
-//        if (!listOfHasil.isNullOrEmpty()){
-//            val consumeType: Type =
-//                object : TypeToken<List<TugasInformation>>() {}.type
-//            val consume: MutableList<TugasInformation> =
-//                Gson().fromJson<List<TugasInformation>?>(listOfHasil, consumeType).toMutableList()
-//            val returnValue = consume.any{it.id == data.id}
-//            return returnValue
-//        }else return false
-//
-//    }
+class TugasViewModel @Inject constructor(private val tugasRemoteDataSource: TugasRemoteDataSource, private  val preferenceHelper: PreferenceHelper) :
+    ViewModel() {
+    private val _tugasDataState: MutableStateFlow<TugasUiState> = MutableStateFlow(
+        TugasUiState.initial()
+    )
+    val tugasDataState: StateFlow<TugasUiState> get() = _tugasDataState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            tugasRemoteDataSource.getTugasData().onEach { result ->
+                when (result) {
+                    is DataSourceHelper.Error -> _tugasDataState.update { currentUiState ->
+                        currentUiState.copy(errorMessage = result.errorMessage, tugas = emptyList())
+                    }
+
+                    is DataSourceHelper.Success -> _tugasDataState.update { currentUiState ->
+                        currentUiState.copy(errorMessage = "", tugas = result.data)
+
+                    }
+                }
+            }.launchIn(this)
+        }
+    }
+    //fun lock jawaban untuk save pertanyaan yang akan dijawab
+    fun saveLockQuestion (data: TugasInformation, uid : String){
+        val listOfHasil = preferenceHelper.getStringInSharedPreference(uid)
+        if (listOfHasil.isNotEmpty()){
+            val consumeType: Type =
+                object : TypeToken<List<TugasInformation>>() {}.type
+            val consume: MutableList<TugasInformation> =
+                Gson().fromJson<List<TugasInformation>?>(listOfHasil, consumeType).toMutableList()
+            consume.add(data)
+            val saveValue = Gson().toJson(consume)
+            preferenceHelper.saveStringInSharedPreference(uid,saveValue)
+        }else {
+            val consume: List<TugasInformation> = listOf(data)
+            val saveValue = Gson().toJson(consume)
+            preferenceHelper.saveStringInSharedPreference(uid,saveValue)
+        }
+
+    }
+    //fun untuk jawaban sudah di lock
+    fun isAnswerLock (data: TugasInformation, uid: String) : Boolean {
+        val listOfHasil = preferenceHelper.getStringInSharedPreference(uid)
+        if (listOfHasil.isNotEmpty()){
+            val consumeType: Type =
+                object : TypeToken<List<TugasInformation>>() {}.type
+            val consume: MutableList<TugasInformation> =
+                Gson().fromJson<List<TugasInformation>?>(listOfHasil, consumeType).toMutableList()
+            val returnValue = consume.any{it.description == data.description}
+            return returnValue
+        }else return false
+
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.my_e_learning.data
 
 import android.os.Parcelable
-import androidx.annotation.DrawableRes
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
