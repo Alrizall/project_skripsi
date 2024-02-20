@@ -14,3 +14,7 @@ annotation class FirebaseMateriQualifier
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class FirebaseTugasQualifier
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class FirebaseAnswerQualifier

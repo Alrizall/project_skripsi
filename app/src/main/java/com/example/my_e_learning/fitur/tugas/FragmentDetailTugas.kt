@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.my_e_learning.data.UserAnswer
+import com.example.my_e_learning.data.dataUser.DataSourceVoid
 import com.example.my_e_learning.databinding.FragmentDetailTugasBinding
 import com.example.my_e_learning.fitur.login.LoginViewModel
 import com.example.my_e_learning.fitur.profil.FragmentProfilDirections
@@ -22,11 +24,11 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FragmentDetailTugas : Fragment() {
-    private val tugasViewModel : TugasViewModel by viewModels()
-    private val loginViewModel : LoginViewModel by viewModels()
+    private val tugasViewModel: TugasViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
     private var _binding: FragmentDetailTugasBinding? = null
     private val binding get() = _binding!!
-    private val tugas : FragmentDetailTugasArgs by navArgs()
+    private val tugas: FragmentDetailTugasArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +55,39 @@ class FragmentDetailTugas : Fragment() {
                         user.user != null -> {
 
                             val data = user.user.getUid()
-                            if ( !data.isNullOrEmpty()){
-                                binding.button.isEnabled = !tugasViewModel.isAnswerLock(tugas.tugasArgs, data)
-                                binding.button.setOnClickListener{
+                            if (!data.isNullOrEmpty()) {
+                                binding.button.isEnabled =
+                                    !tugasViewModel.isAnswerLock(tugas.tugasArgs, data)
+                                binding.button.setOnClickListener {
                                     tugasViewModel.saveLockQuestion(tugas.tugasArgs, data)
-                                    findNavController().popBackStack()
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                            when (
+                                                val data = tugasViewModel.uploadAnswerFirebase(
+                                                    data = UserAnswer(
+                                                        data,
+                                                        user.user.getEmail(),
+                                                        binding.edtDetailTugas1.text.toString()
+                                                    )
+                                                )
+                                            ) {
+                                                is DataSourceVoid.Error ->
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        data.errorMessage,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                DataSourceVoid.Success ->
+                                                    findNavController().popBackStack()
+                                            }
+                                        }
+                                    }
+
                                 }
-                            }else {
-                                Toast.makeText(requireContext(),"uid null", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(requireContext(), "uid null", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     }
@@ -68,11 +95,10 @@ class FragmentDetailTugas : Fragment() {
             }
         }
 
-        binding.ivBacTugas.setOnClickListener{
+        binding.ivBacTugas.setOnClickListener {
             findNavController().popBackStack()
         }
         binding.tvDetailTugas1.text = tugas.tugasArgs.description
-
 
 
     }
